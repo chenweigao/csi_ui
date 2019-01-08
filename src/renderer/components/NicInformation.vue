@@ -48,145 +48,7 @@
                 ></i>
             </h3>
         </el-card>
-        <el-card class="box-card">
-            <el-form
-                ref="form"
-                :model="form"
-                label-width="80px"
-            >
-
-                <el-form-item>
-
-                    <el-select
-                        v-model="selectedCard"
-                        clearable
-                        placeholder="Select your card"
-                    >
-                        <el-option
-                            v-for="item in nicInfo.ids"
-                            :key="item.index"
-                            :label="item"
-                            :value="item"
-                        >
-                        </el-option>
-                    </el-select>
-                    <el-select
-                        v-model="selectedMode"
-                        placeholder="Select your mode"
-                    >
-                        <el-option
-                            v-for="item in modes"
-                            :key="item.index"
-                            :label="item"
-                            :value="item"
-                        >
-                        </el-option>
-                    </el-select>
-                    <el-button
-                        @click="configCard"
-                        type="success"
-                    >Config</el-button>
-                    <!-- <el-button @click="fetchState">Send</el-button> -->
-                </el-form-item>
-
-                <el-form-item label="freq">
-                    <el-input v-model="form.freq"></el-input>
-                </el-form-item>
-
-                <el-form-item
-                    label="txcm"
-                    v-if="selectedMode !='logger'"
-                >
-                    <el-input-number
-                        v-model="form.txcm"
-                        :min="1"
-                        :max="7"
-                        label="txcm"
-                    ></el-input-number>
-                </el-form-item>
-                <el-form-item label="rxcm">
-                    <el-input-number
-                        v-model="form.rxcm"
-                        :min="1"
-                        :max="7"
-                        label="rxcm"
-                    ></el-input-number>
-                </el-form-item>
-                <el-form-item
-                    label="ness"
-                    v-if="selectedMode !='logger'"
-                >
-                    <el-input-number
-                        v-model="form.ness"
-                        :min="0"
-                        :max="2"
-                        label="rxcm"
-                    ></el-input-number>
-                </el-form-item>
-
-                <el-form-item label="pll">
-                    <el-input v-model="form.pll"></el-input>
-                </el-form-item>
-
-                <el-form-item
-                    label="Policy"
-                    v-if="selectedMode !='logger'"
-                >
-                    <el-select
-                        v-model="form.region"
-                        placeholder="Policy"
-                    >
-                        <el-option
-                            label="chansel"
-                            value="chansel"
-                        ></el-option>
-                        <el-option
-                            label="fastcc"
-                            value="fastcc"
-                        ></el-option>
-                        <el-option
-                            label="reset"
-                            value="reset"
-                        ></el-option>
-                        <el-option
-                            label="default"
-                            value="default"
-                        ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item
-                    label="repeat"
-                    v-if="selectedMode =='injector' || selectedMode == 'initiator'"
-                >
-                    <el-input v-model="form.repeat"></el-input>
-                </el-form-item>
-                <el-form-item
-                    label="delay"
-                    v-if="selectedMode =='injector' || selectedMode == 'initiator'"
-                >
-                    <el-input v-model="form.delay"></el-input>
-                </el-form-item>
-                <el-form-item
-                    label="cf"
-                    v-if="selectedMode =='injector' || selectedMode == 'initiator'"
-                >
-                    <el-input v-model="form.cf"></el-input>
-                </el-form-item>
-                <el-form-item
-                    label="sf"
-                    v-if="selectedMode =='injector' || selectedMode == 'initiator'"
-                >
-                    <el-input v-model="form.sf"></el-input>
-                </el-form-item>
-                <el-form-item
-                    label="delayed start"
-                    v-if="selectedMode =='injector' || selectedMode == 'initiator'"
-                >
-                    <el-input v-model="form.delayedStart"></el-input>
-                </el-form-item>
-
-            </el-form>
-        </el-card>
+        <card-config></card-config>
         <el-card class="box-card">
             <div
                 slot="header"
@@ -207,11 +69,14 @@
     </div>
 </template>
 <script>
+import CardConfig from './CardConfig'
 var dgram = require('dgram')
 var udpClient = dgram.createSocket('udp4')
 export default {
+  components: { CardConfig },
   data () {
     return {
+      fromList: [1, 2, 3],
       formInline: {
         card: '',
         cardString: ''
