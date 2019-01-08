@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form
+        <!-- <el-form
             :inline="true"
             :model="formInline"
             class="demo-form-inline"
@@ -40,16 +40,18 @@
                 class="text item"
             >
                 {{ nic }}
-                <!-- <el-button icon="el-icon-delete" circle></el-button> -->
+                <el-button icon="el-icon-delete" circle></el-button>
                 <i
                     class="el-icon-delete"
                     @click="deleteCard(nic.index)"
                     style="float:right"
                 ></i>
             </h3>
-        </el-card>
-        <card-config></card-config>
-        <el-card class="box-card">
+        </el-card> -->
+        <config-table :form-list="formList"></config-table>
+        <card-config v-on:config="sendConfig"></card-config>
+        <!-- {{formList}} -->
+        <!-- <el-card class="box-card">
             <div
                 slot="header"
                 class="clearfix"
@@ -63,52 +65,31 @@
             </div>
             <div>
                 {{ configResult }}
-            </div>
-        </el-card>
+            </div> -->
+        <!-- </el-card> -->
 
     </div>
 </template>
 <script>
 import CardConfig from './CardConfig'
+import ConfigTable from './ConfigTable'
 var dgram = require('dgram')
 var udpClient = dgram.createSocket('udp4')
 export default {
-  components: { CardConfig },
+  components: {
+    CardConfig,
+    ConfigTable
+  },
   data () {
     return {
-      fromList: [1, 2, 3],
-      formInline: {
-        card: '',
-        cardString: ''
-      },
-      nicInfo: {
-        ids: [],
-        parameter: ''
-      },
-      modes: ['logger', 'injector', 'responder', 'initiator'],
-      selectedCard: '',
-      selectedMode: 'responder',
-      selectedPolicy: '',
-      selectedNicID: '',
-      form: {
-        NICId: '',
-        freq: '',
-        txcm: 7,
-        rxcm: 7,
-        ness: 0,
-        pll: '',
-        policy: '',
-        repeat: '',
-        delay: '',
-        cf: '',
-        sf: '',
-        delayedStart: '',
-        mode: ''
-      },
-      configResult: []
+      formList: ''
     }
   },
   methods: {
+    sendConfig (config) {
+      this.formList = config
+      console.log(this.formList)
+    },
     onSubmit () {
       this.nicInfo.ids.push(this.formInline.card)
       this.nicInfo.parameter = this.formInline.cardString
@@ -152,6 +133,7 @@ export default {
         `receive message from ${rinfo.address}:${rinfo.port}：${msg}`
       )
     })
+    console.log(this.formList)
     // window.setInterval(self.fetchState, 1000)
   }
 }

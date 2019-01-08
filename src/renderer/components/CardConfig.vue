@@ -1,5 +1,7 @@
 <template>
     <div>
+        <h2>NIC Command Config</h2>
+
         <el-card
             class="box-card"
             v-for="(form, index) in formList"
@@ -19,7 +21,9 @@
 
                     <p>{{ index }} : {{ form.data }}</p>
                 </el-form-item> -->
-
+                <el-form-item label="NICId">
+                    <el-input v-model="form.data.NICId"></el-input>
+                </el-form-item>
                 <el-form-item label="Mode">
                     <el-select
                         v-model="form.data.mode"
@@ -171,36 +175,17 @@
             <el-col :span="24">
                 <el-button id = "addbtn"
                     @click="addCommand"
-                    type="success"
+                    type="primary"
                 >
                     Add Command
                 </el-button>
             </el-col>
         </el-row>
+        <!-- <el-button @click="childMethods">ChildMethods</el-button> -->
     </div>
 </template>
 
 <script>
-/* eslint-disable */
-// var Form = function(){
-//     return {
-//         data: {
-//           NICId: '',
-//           freq: '',
-//           txcm: 7,
-//           rxcm: 7,
-//           ness: 0,
-//           pll: '',
-//           policy: '',
-//           repeat: '',
-//           delay: '',
-//           cf: '',
-//           sf: '',
-//           delayedStart: ''
-//         }
-//       }
-// }
-/* eslint-enable */
 export default {
   data: function () {
     return {
@@ -223,14 +208,17 @@ export default {
       }
     }
   },
-  methods: {
 
+  methods: {
     addCommand () {
       //   this.form.commandId = this.formList.length
       //   var form = new Form()
 
       this.formList.push(JSON.parse(JSON.stringify(this.form)))
-      console.log(this.formList)
+      this.$emit('config', this.formList)
+      console.log('config send! ---child')
+
+    //   console.log(this.formList)
     },
     submit () {
       console.log('submit' + JSON.stringify(this.formList))
@@ -238,6 +226,9 @@ export default {
     deleteCommand (index) {
       this.formList.splice(index, 1)
       console.log(JSON.stringify(this.formList))
+    },
+    childMethods () {
+      this.$emit('config', this.formList)
     }
   }
 }

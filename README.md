@@ -1,6 +1,6 @@
 # csi_gui
 
-> An electron-vue project
+> An electron-vue project, CSI UI built by vue electron
 
 #### Build Setup
 
