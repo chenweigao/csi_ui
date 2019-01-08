@@ -82,7 +82,7 @@ export default {
   },
   data () {
     return {
-      formList: ''
+      formList: []
     }
   },
   methods: {
